@@ -19,7 +19,7 @@ app.use(async (ctx) => {
           payload.ref.split("/")[2] ?? payload.ref
         }</b>\n\n`;
       text += payload.commits.map((v: any) =>
-        `<a href="${v.url}">${v.id.slice(0, 6)}</a>: ${v.message} by ${
+        `<a href="${v.url}">${v.id.slice(0, 7)}</a>: ${v.message} by ${
           html(v.author.name)
         }`
       );
