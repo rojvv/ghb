@@ -14,7 +14,9 @@ app.use(async (ctx) => {
     if (payload?.commits?.length != 0) {
       text += `<b>🔨 ${payload.commits.length} new commit${
         payload.commits.length == 1 ? "" : "s"
-      } to ${payload.repository.name}:${payload.ref.slice(5)}</b>\n\n`;
+      } to ${payload.repository.name}:${
+        payload.ref.split("/")[2] ?? payload.ref
+      }</b>\n\n`;
       text += payload.commits.map((v: any) =>
         `<a href="${v.compare}">${v.id.slice(0, 6)}</a>: ${v.message} by ${
           html(v.author.name)
