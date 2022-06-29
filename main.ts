@@ -1,5 +1,6 @@
 import { Application } from "https://deno.land/x/oak@v10.5.1/mod.ts";
 import { Bot } from "https://deno.land/x/grammy@v1.9.0/mod.ts";
+import { html } from "https://deno.land/x/esc@0.0.0/mod.ts";
 
 const app = new Application();
 
@@ -15,7 +16,9 @@ app.use(async (ctx) => {
         payload.commits.length == 1 ? "" : "s"
       } to ${payload.repository.name}:${payload.ref.slice(5)}</b>\n\n`;
       text += payload.commits.map((v: any) =>
-        `<a href="${v.compare}">${v.id.slice(0, 6)}</a>: ${v.message} by ${v.author.name}`
+        `<a href="${v.compare}">${v.id.slice(0, 6)}</a>: ${v.message} by ${
+          html(v.author.name)
+        }`
       );
     }
     if (text != "") {
