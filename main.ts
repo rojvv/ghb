@@ -22,7 +22,7 @@ app.use(async (ctx) => {
         `<a href="${v.url}">${v.id.slice(0, 7)}</a>: ${v.message} by ${
           html(v.author.name)
         }`
-      );
+      ).join("\n");
     }
     if (text != "") {
       await bot.api.sendMessage(chatId, text, {
