@@ -11,12 +11,15 @@ app.use(async (ctx) => {
     const bot = new Bot(token);
     let text = "";
     if (payload?.commits?.length != 0) {
+      text += `<b>🔨 ${payload.commits.length} new commit${
+        payload.commits.length == 1 ? "" : "s"
+      } to ${payload.repository.name}:${payload.ref.slice(5)}</b>\n\n`;
       text += payload.commits.map((v: any) =>
-        `${v.author.name} ${v.message} ${v.id.slice(0, 6)}`
+        `<a href="${v.compare}">${v.id.slice(0, 6)}</a>: ${v.message} by ${v.author.name}`
       );
     }
     if (text != "") {
-      bot.api.sendMessage(chatId, text);
+      bot.api.sendMessage(chatId, text, { parse_mode: "HTML" });
     }
   }
   ctx.response.status = 200;
