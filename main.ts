@@ -12,7 +12,7 @@ app.use(async (ctx) => {
     let text = "";
     if (payload?.commits?.length != 0) {
       text += payload.commits.map((v: any) =>
-        `${v.author} ${v.message} ${v.id}`
+        `${v.author.name} ${v.message} ${v.id.slice(0, 6)}`
       );
     }
     if (text != "") {
