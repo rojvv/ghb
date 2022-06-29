@@ -19,6 +19,7 @@ app.use(async (ctx) => {
       bot.api.sendMessage(chatId, text);
     }
   }
+  ctx.response.status = 200;
 });
 
 app.listen({ port: 8000 });
