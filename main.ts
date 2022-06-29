@@ -12,13 +12,13 @@ app.use(async (ctx) => {
     const bot = new Bot(token);
     let text = "";
     if (payload?.commits?.length != 0) {
-      text += `<b>🔨 ${payload.commits.length} new commit${
+      text += `<b>🔨 <a href="${payload.compare}">${payload.commits.length} new commit${
         payload.commits.length == 1 ? "" : "s"
-      } to ${payload.repository.name}:${
+      }</a> to ${payload.repository.name}:${
         payload.ref.split("/")[2] ?? payload.ref
       }</b>\n\n`;
       text += payload.commits.map((v: any) =>
-        `<a href="${v.compare}">${v.id.slice(0, 6)}</a>: ${v.message} by ${
+        `<a href="${v.url}">${v.id.slice(0, 6)}</a>: ${v.message} by ${
           html(v.author.name)
         }`
       );
