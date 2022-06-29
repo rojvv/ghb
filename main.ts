@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { Application } from "https://deno.land/x/oak@v10.5.1/mod.ts";
 import { Bot } from "https://deno.land/x/grammy@v1.9.0/mod.ts";
 import { html } from "https://deno.land/x/esc@0.0.0/mod.ts";
