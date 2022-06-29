@@ -24,7 +24,7 @@ app.use(async (ctx) => {
       );
     }
     if (text != "") {
-      bot.api.sendMessage(chatId, text, { parse_mode: "HTML" });
+      await bot.api.sendMessage(chatId, text, { parse_mode: "HTML" });
     }
   }
   ctx.response.status = 200;
