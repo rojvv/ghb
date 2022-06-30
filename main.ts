@@ -2,6 +2,13 @@
 import { Application } from "https://deno.land/x/oak@v10.5.1/mod.ts";
 import { Bot } from "https://deno.land/x/grammy@v1.9.0/mod.ts";
 import { html } from "https://deno.land/x/esc@0.0.0/mod.ts";
+import {
+  bold,
+  fmt,
+  FormattedString,
+  link,
+  ParseModeContext,
+} from "https://deno.land/x/grammy_parse_mode@1.1.2/mod.ts";
 
 const app = new Application();
 
@@ -10,24 +17,28 @@ app.use(async (ctx) => {
   const token = ctx.request.url.searchParams.get("token");
   const chatId = ctx.request.url.searchParams.get("chatId");
   if (token && chatId) {
-    const bot = new Bot(token);
-    let text = "";
+    const bot = new Bot<ParseModeContext>(token);
+    let text: FormattedString | undefined;
     if (payload?.commits?.length != 0) {
-      text +=
-        `<b>🔨 <a href="${payload.compare}">${payload.commits.length} new commit${
-          payload.commits.length == 1 ? "" : "s"
-        }</a> to ${payload.repository.name}:${
-          payload.ref.split("/")[2] ?? payload.ref
-        }</b>\n\n`;
-      text += payload.commits.map((v: any) =>
-        `<a href="${v.url}">${v.id.slice(0, 7)}</a>: ${v.message} by ${
-          html(v.author.name)
-        }`
-      ).join("\n");
+      text = fmt`${
+        bold(
+          fmt`🔨 ${link(payload.compare, payload.compare.length)} new commit${
+            payload.commits.length == 1 ? "" : "s"
+          } to ${payload.repository.name}:${
+            payload.ref.split("/")[2] ?? payload.ref
+          }`,
+        )
+      }\n\n${
+        payload.commits.map((v: any) =>
+          fmt`${
+            link(v.url, v.id.slice(0, 7))
+          }: ${v.message} by ${v.author.name}`
+        )
+      }`;
     }
-    if (text != "") {
-      await bot.api.sendMessage(chatId, text, {
-        parse_mode: "HTML",
+    if (text != undefined) {
+      await bot.api.sendMessage(chatId, text.toString(), {
+        entities: text.entities,
         disable_web_page_preview: true,
       });
     }
