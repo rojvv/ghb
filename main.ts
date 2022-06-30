@@ -26,11 +26,11 @@ app.use(async (ctx) => {
             link(
               fmt`${payload.commits.length} new commit${
                 payload.commits.length == 1 ? "" : "s"
-              } to ${payload.repository.name}:${
-                payload.ref.split("/")[2] ?? payload.ref
               }`,
               payload.compare,
             )
+          } to ${payload.repository.name}:${
+            payload.ref.split("/")[2] ?? payload.ref
           }`,
         )
       }\n\n${
