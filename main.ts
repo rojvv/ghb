@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import { Application, Bot, ParseModeContext } from "./deps.ts";
 import { messages } from "./messages.ts";
 
