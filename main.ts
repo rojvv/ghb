@@ -4,6 +4,15 @@ import { messages } from "./messages.ts";
 
 const app = new Application();
 
+app.use(async (ctx, next) => {
+  try {
+    await next();
+  } catch (err) {
+    ctx.response.status = 500;
+    console.error(err);
+  }
+});
+
 app.use(async (ctx) => {
   const event = ctx.request.headers.get("x-github-event");
   if (!event) {
