@@ -38,6 +38,14 @@ app.use(async (ctx) => {
           fmt`${
             link(v.id.slice(0, 7), v.url)
           }: ${v.message} by ${v.author.name}`
+        ).reduce(
+          (
+            p: any,
+            c: any,
+          ) => (new FormattedString(
+            p.text + c.text,
+            p.entities.concat(c.entities),
+          )),
         )
       }`;
     }
