@@ -22,10 +22,15 @@ app.use(async (ctx) => {
     if (payload?.commits?.length != 0) {
       text = fmt`${
         bold(
-          fmt`🔨 ${link(payload.commits.length, payload.compare)} new commit${
-            payload.commits.length == 1 ? "" : "s"
-          } to ${payload.repository.name}:${
-            payload.ref.split("/")[2] ?? payload.ref
+          fmt`🔨 ${
+            link(
+              fmt`${payload.commits.length} new commit${
+                payload.commits.length == 1 ? "" : "s"
+              } to ${payload.repository.name}:${
+                payload.ref.split("/")[2] ?? payload.ref
+              }`,
+              payload.compare,
+            )
           }`,
         )
       }\n\n${
