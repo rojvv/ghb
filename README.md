@@ -10,7 +10,7 @@
   - Click Add webhook.
   - Set the Payload URL to
   ```
-  https://roj1512-ghb.deno.dev?token=<your_bot's_token>&chat_id<your_chat's_id>
+  https://roj1512-ghb.deno.dev/?token=<your_bot's_token>&chat_id<your_chat's_id>
   ```
   - Set the Content type to `application/json`.
   - Choose Send me everything.
