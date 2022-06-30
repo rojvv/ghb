@@ -1,14 +1,13 @@
 // deno-lint-ignore-file no-explicit-any
-import { Application } from "https://deno.land/x/oak@v10.5.1/mod.ts";
-import { Bot } from "https://deno.land/x/grammy@v1.9.0/mod.ts";
-import { html } from "https://deno.land/x/esc@0.0.0/mod.ts";
 import {
+  Application,
   bold,
+  Bot,
   fmt,
   FormattedString,
   link,
   ParseModeContext,
-} from "https://deno.land/x/grammy_parse_mode@1.1.2/mod.ts";
+} from "./deps.ts";
 
 const app = new Application();
 
@@ -34,19 +33,11 @@ app.use(async (ctx) => {
           }`,
         )
       }\n\n${
-        payload.commits.map((v: any) =>
+        fmt(payload.commits.map((v: any) =>
           fmt`${
             link(v.id.slice(0, 7), v.url)
           }: ${v.message} by ${v.author.name}`
-        ).reduce(
-          (
-            p: any,
-            c: any,
-          ) => (new FormattedString(
-            p.text + c.text,
-            p.entities.concat(c.entities),
-          )),
-        )
+        ))
       }`;
     }
     if (text != undefined) {
