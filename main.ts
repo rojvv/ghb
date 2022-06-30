@@ -34,7 +34,7 @@ app.use(async (ctx) => {
         )
       }\n\n${
         fmt(
-          payload.commits.map(() => ""),
+          ["", ...payload.commits.map(() => "")],
           payload.commits.map((v: any) =>
             fmt`${
               link(v.id.slice(0, 7), v.url)
