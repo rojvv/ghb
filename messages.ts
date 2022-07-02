@@ -1,4 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
+// Credits go to github.com/vrumger/gibhugbot.
 import { bold, fmt, FormattedString, italic, link } from "./deps.ts";
 
 export const messages: Record<
