@@ -47,14 +47,14 @@ export const messages: Record<
                   `${payload.repository.name}#${payload.issue.number} ${payload.issue.title}`,
                 payload.issue.html_url,
               )
-            }\nby ${
-              link(
-                fmt`@${payload.issue.user.login}`,
-                payload.issue.user.html_url,
-              )
-            }\n\n`,
+            }`,
           )
-        }`;
+        }\nby ${
+          link(
+            fmt`@${payload.issue.user.login}`,
+            payload.issue.user.html_url,
+          )
+        }\n\n`;
         return fmt(
           ["", "", ""],
           header,
