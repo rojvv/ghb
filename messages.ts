@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { bold, fmt, FormattedString, link } from "./deps.ts";
+import { bold, fmt, FormattedString, italic, link } from "./deps.ts";
 
 export const messages: Record<
   string,
@@ -35,5 +35,34 @@ export const messages: Record<
         )),
       )
     }`;
+  },
+  "issues": (payload: any) => {
+    switch (payload.action) {
+      case "opened": {
+        const header = fmt`${
+          bold(
+            fmt`🐛 New issue ${
+              link(
+                fmt
+                  `${payload.repository.name}#${payload.issue.number} ${payload.issue.title}`,
+                payload.issue.html_url,
+              )
+            }\nby ${
+              link(
+                fmt`@${payload.issue.user.login}`,
+                payload.issue.user.html_url,
+              )
+            }\n\n`,
+          )
+        }`;
+        return fmt(
+          ["", "", ""],
+          header,
+          payload.issue.body
+            ? payload.issue.body.slice(0, 4096 - header.text.length)
+            : italic("No description provided."),
+        );
+      }
+    }
   },
 };
