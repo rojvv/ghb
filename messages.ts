@@ -7,7 +7,7 @@ export const messages: Record<
   (payload: any) => FormattedString | undefined
 > = {
   "push": (payload: any) => {
-    if (payload.commits.length < 0) {
+    if (payload.commits.length <= 0) {
       return;
     }
     return fmt`${
