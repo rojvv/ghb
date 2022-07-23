@@ -72,14 +72,14 @@ export const messages: Record<
                 fmt`${payload.repository.name}#${payload.pull_request.number} ${payload.pull_request.title}`,
                 payload.pull_request.html_url,
               )
-            }\nby ${
-              link(
-                fmt`@${payload.pull_request.user.login}`,
-                payload.pull_request.user.html_url,
-              )
-            }\n\n`,
+            }\n`,
           )
-        }`;
+        }by ${
+          link(
+            fmt`@${payload.pull_request.user.login}`,
+            payload.pull_request.user.html_url,
+          )
+        }\n\n`;
         return fmt(
           ["", "", ""],
           header,
