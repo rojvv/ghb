@@ -41,8 +41,7 @@ export const messages: Record<
           bold(
             fmt`🐛 New issue ${
               link(
-                fmt
-                  `${payload.repository.name}#${payload.issue.number} ${payload.issue.title}`,
+                fmt`${payload.repository.name}#${payload.issue.number} ${payload.issue.title}`,
                 payload.issue.html_url,
               )
             }`,
@@ -58,6 +57,34 @@ export const messages: Record<
           header,
           payload.issue.body
             ? payload.issue.body.slice(0, 4096 - header.text.length)
+            : italic("No description provided."),
+        );
+      }
+    }
+  },
+  "pull_request": (payload: any) => {
+    switch (payload.action) {
+      case "opened": {
+        const header = fmt`${
+          bold(
+            fmt`🔌 New pull request ${
+              link(
+                fmt`${payload.repository.name}#${payload.pull_request.number} ${payload.pull_request.title}`,
+                payload.pull_request.html_url,
+              )
+            }\nby ${
+              link(
+                fmt`@${payload.pull_request.user.login}`,
+                payload.pull_request.user.html_url,
+              )
+            }\n\n`,
+          )
+        }`;
+        return fmt(
+          ["", "", ""],
+          header,
+          payload.pull_request.body
+            ? payload.pull_request.body.slice(0, 4096 - header.text.length)
             : italic("No description provided."),
         );
       }
