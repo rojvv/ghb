@@ -27,9 +27,9 @@ export const messages: Record<
       fmt(
         [""].concat(payload.commits.map(() => "")),
         ...payload.commits.map((v: any) =>
-          fmt`${
-            link(v.id.slice(0, 7), v.url)
-          }: ${v.message} by ${v.author.name}\n`
+          fmt`${link(v.id.slice(0, 7), v.url)}: ${
+            v.message.split("\n").map((v: string) => v)[0]
+          } by ${v.author.name}\n`
         ),
       )
     }`;
