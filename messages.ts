@@ -111,4 +111,35 @@ export const messages: Record<
       )
     }\nby ${link(fmt`@${payload.sender.login}`, payload.sender.html_url)}`;
   },
+  "pull_request_review": (payload) => {
+    switch (payload.action) {
+      case "submitted": {
+        const emoji = ({
+          "commented": "⚪️",
+          "approved": "🟢",
+          "request_changes": "🟡",
+        } as Record<string, string>)[payload.review.state];
+        if (!emoji) {
+          return;
+        }
+        const header = fmt`${
+          bold(fmt`${emoji} New review ${
+            link(
+              fmt`${payload.repository.name}#${payload.pull_request.number} ${payload.pull_request.title}`,
+              payload.pull_request.html_url,
+            )
+          }`)
+        }\nby ${
+          link(fmt`@${payload.sender.login}`, payload.sender.html_url)
+        }\n\n`;
+        return fmt(
+          ["", "", ""],
+          header,
+          payload.review.body
+            ? payload.review.body.slice(0, 4096 - header.text.length)
+            : italic("No description provided."),
+        );
+      }
+    }
+  },
 };
