@@ -72,9 +72,9 @@ export const messages: Record<
                 fmt`${payload.repository.name}#${payload.pull_request.number} ${payload.pull_request.title}`,
                 payload.pull_request.html_url,
               )
-            }\n`,
+            }`,
           )
-        }by ${
+        }\nby ${
           link(
             fmt`@${payload.pull_request.user.login}`,
             payload.pull_request.user.html_url,
@@ -88,6 +88,18 @@ export const messages: Record<
             : italic("No description provided."),
         );
       }
+    }
+  },
+  "star": (payload: any) => {
+    switch (payload.action) {
+      case "created":
+        return fmt`${
+          bold(
+            fmt`⭐️ New star ${
+              link(payload.repository.name, payload.repository.html_url)
+            }`,
+          )
+        }\nby ${link(fmt`@${payload.sender.login}`, payload.sender.html_url)}`;
     }
   },
 };
