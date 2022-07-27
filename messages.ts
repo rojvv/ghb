@@ -6,7 +6,7 @@ export const messages: Record<
   string,
   (payload: any) => FormattedString | undefined
 > = {
-  "push": (payload: any) => {
+  "push": (payload) => {
     if (payload.commits.length <= 0) {
       return;
     }
@@ -34,7 +34,7 @@ export const messages: Record<
       )
     }`;
   },
-  "issues": (payload: any) => {
+  "issues": (payload) => {
     switch (payload.action) {
       case "opened": {
         const header = fmt`${
@@ -62,7 +62,7 @@ export const messages: Record<
       }
     }
   },
-  "pull_request": (payload: any) => {
+  "pull_request": (payload) => {
     switch (payload.action) {
       case "opened": {
         const header = fmt`${
@@ -90,7 +90,7 @@ export const messages: Record<
       }
     }
   },
-  "star": (payload: any) => {
+  "star": (payload) => {
     switch (payload.action) {
       case "created":
         return fmt`${
@@ -101,5 +101,14 @@ export const messages: Record<
           )
         }\nby ${link(fmt`@${payload.sender.login}`, payload.sender.html_url)}`;
     }
+  },
+  "fork": (payload) => {
+    return fmt`${
+      bold(
+        fmt`🍴 New fork ${
+          link(payload.forkee.full_name, payload.forkee.html_url)
+        }`,
+      )
+    }\nby ${link(fmt`@${payload.sender.login}`, payload.sender.html_url)}`;
   },
 };
