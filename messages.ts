@@ -125,8 +125,8 @@ export const messages: Record<
         const header = fmt`${
           bold(fmt`${emoji} New review ${
             link(
-              fmt`${payload.repository.name}#${payload.pull_request.number} ${payload.pull_request.title}`,
-              payload.pull_request.html_url,
+              fmt`${payload.repository.name}#${payload.pull_request.number} ${payload.review.id}`,
+              payload.review.html_url,
             )
           }`)
         }\nby ${
