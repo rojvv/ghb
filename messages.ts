@@ -117,7 +117,7 @@ export const messages: Record<
         const emoji = ({
           "commented": "⚪️",
           "approved": "🟢",
-          "request_changes": "🟡",
+          "changes_requested": "🟡",
         } as Record<string, string>)[payload.review.state];
         if (!emoji) {
           return;
