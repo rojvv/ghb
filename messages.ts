@@ -175,7 +175,10 @@ export const messages: Record<
             ),
           )
         }\nby ${
-          link(fmt`@${payload.sender.login}`, payload.sender.html_url)
+          link(
+            fmt`@${payload.comment.user.login}`,
+            payload.comment.user.html_url,
+          )
         }\n\n`;
         return fmt(
           ["", "", ""],
