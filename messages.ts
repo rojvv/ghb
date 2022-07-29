@@ -48,13 +48,13 @@ export const messages: Record<
             fmt`${payload.repository.name}#${payload.issue.number} ${payload.issue.title}`,
             payload.issue.html_url,
           )
-        }`}\n\n`;
+        }`}${payload.issue.body ? ":" : "."}\n\n`;
         return fmt(
           ["", "", ""],
           header,
           payload.issue.body
-            ? payload.issue.body.slice(0, 4096 - header.text.length)
-            : italic("No description provided."),
+            ? italic(payload.issue.body.slice(0, 4096 - header.text.length))
+            : "",
         );
       }
     }
@@ -62,7 +62,7 @@ export const messages: Record<
   "pull_request": (payload) => {
     switch (payload.action) {
       case "opened": {
-        const header = fmt`${fmt`${
+        const header = fmt`${
           link(
             fmt`@${payload.pull_request.user.login}`,
             payload.pull_request.user.html_url,
@@ -72,13 +72,15 @@ export const messages: Record<
             fmt`${payload.repository.name}#${payload.pull_request.number} ${payload.pull_request.title}`,
             payload.pull_request.html_url,
           )
-        }.`}\n\n`;
+        }${payload.pull_request.body ? ":" : "."}\n\n`;
         return fmt(
           ["", "", ""],
           header,
           payload.pull_request.body
-            ? payload.pull_request.body.slice(0, 4096 - header.text.length)
-            : italic("No description provided."),
+            ? italic(
+              payload.pull_request.body.slice(0, 4096 - header.text.length),
+            )
+            : "",
         );
       }
       case "review_requested": {
@@ -160,7 +162,7 @@ export const messages: Record<
             fmt`commented on ${payload.repository.name}#${payload.issue.number} ${payload.issue.title} ${payload.comment.id}`,
             payload.comment.html_url,
           )
-        }\n\n`;
+        }:\n\n`;
         return fmt(
           ["", "", ""],
           header,
