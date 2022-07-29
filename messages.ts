@@ -117,7 +117,7 @@ export const messages: Record<
       case "created":
         return fmt`${
           bold(
-            fmt`⭐️ New star ${
+            fmt`💫 New star on ${
               link(payload.repository.name, payload.repository.html_url)
             }`,
           )
