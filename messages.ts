@@ -170,7 +170,7 @@ export const messages: Record<
         const header = fmt`${
           bold(fmt`${
             link(
-              fmt`💬 New comment on ${payload.repository.name}#${payload.issue.number} ${payload.review.id}`,
+              fmt`💬 New comment on ${payload.repository.name}#${payload.issue.number} ${payload.issue.title}`,
               payload.review.html_url,
             )
           }`)
