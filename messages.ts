@@ -143,7 +143,7 @@ export const messages: Record<
           ["", "", ""],
           header,
           payload.review.body
-            ? payload.review.body.slice(0, 4096 - header.text.length)
+            ? italic(payload.review.body.slice(0, 4096 - header.text.length))
             : "",
         );
       }
@@ -166,7 +166,7 @@ export const messages: Record<
         return fmt(
           ["", "", ""],
           header,
-          payload.comment.body.slice(0, 4096 - header.text.length),
+          italic(payload.comment.body.slice(0, 4096 - header.text.length)),
         );
       }
     }
