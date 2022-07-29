@@ -88,6 +88,28 @@ export const messages: Record<
             : italic("No description provided."),
         );
       }
+      case "review_requested": {
+        return fmt`${
+          bold(
+            fmt`👁‍🗨 New review request ${
+              link(
+                fmt`${payload.repository.name}#${payload.pull_request.number} ${payload.pull_request.title}`,
+                payload.pull_request.html_url,
+              )
+            }`,
+          )
+        }\nfrom ${
+          link(
+            fmt`@${payload.sender.login}`,
+            payload.sender.html_url,
+          )
+        } to ${
+          link(
+            fmt`@${payload.requested_reviewer.login}`,
+            payload.requested_reviewer.html_url,
+          )
+        }`;
+      }
     }
   },
   "star": (payload) => {
