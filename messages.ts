@@ -147,7 +147,7 @@ export const messages: Record<
         const header = fmt`${
           bold(fmt`${
             link(
-              fmt`${emoji} New review on ${payload.repository.name}#${payload.pull_request.number} ${payload.review.id}`,
+              fmt`${emoji} New review on ${payload.repository.name}#${payload.pull_request.number} ${payload.pull_request.title}`,
               payload.review.html_url,
             )
           }`)
@@ -168,12 +168,12 @@ export const messages: Record<
     switch (payload.action) {
       case "created": {
         const header = fmt`${
-          bold(fmt`${
+          bold(
             link(
               fmt`💬 New comment on ${payload.repository.name}#${payload.issue.number} ${payload.issue.title}`,
               payload.review.html_url,
-            )
-          }`)
+            ),
+          )
         }\nby ${
           link(fmt`@${payload.sender.login}`, payload.sender.html_url)
         }\n\n`;
