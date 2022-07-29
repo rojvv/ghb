@@ -138,7 +138,7 @@ export const messages: Record<
             fmt`${payload.repository.name}#${payload.pull_request.number} ${payload.pull_request.title}`,
             payload.pull_request.html_url,
           )
-        }\n\n`;
+        }${payload.review.body ? ":" : "."}\n\n`;
         return fmt(
           ["", "", ""],
           header,
