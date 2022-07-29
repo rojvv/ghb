@@ -145,9 +145,9 @@ export const messages: Record<
           return;
         }
         const header = fmt`${
-          bold(fmt`${emoji} New review ${
+          bold(fmt`${
             link(
-              fmt`${payload.repository.name}#${payload.pull_request.number} ${payload.review.id}`,
+              fmt`${emoji} New review on ${payload.repository.name}#${payload.pull_request.number} ${payload.review.id}`,
               payload.review.html_url,
             )
           }`)
@@ -160,6 +160,27 @@ export const messages: Record<
           payload.review.body
             ? payload.review.body.slice(0, 4096 - header.text.length)
             : italic("No description provided."),
+        );
+      }
+    }
+  },
+  "issue_comment": (payload) => {
+    switch (payload.action) {
+      case "created": {
+        const header = fmt`${
+          bold(fmt`${
+            link(
+              fmt`💬 New comment on ${payload.repository.name}#${payload.issue.number} ${payload.review.id}`,
+              payload.review.html_url,
+            )
+          }`)
+        }\nby ${
+          link(fmt`@${payload.sender.login}`, payload.sender.html_url)
+        }\n\n`;
+        return fmt(
+          ["", "", ""],
+          header,
+          payload.comment.body.slice(0, 4096 - header.text.length),
         );
       }
     }
