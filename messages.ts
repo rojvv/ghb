@@ -171,7 +171,7 @@ export const messages: Record<
           bold(
             link(
               fmt`💬 New comment on ${payload.repository.name}#${payload.issue.number} ${payload.issue.title}`,
-              payload.review.html_url,
+              payload.comment.html_url,
             ),
           )
         }\nby ${
