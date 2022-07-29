@@ -39,7 +39,7 @@ export const messages: Record<
       case "opened": {
         const header = fmt`${
           bold(
-            fmt`🐛 New issue ${
+            fmt`🐛 New issue: ${
               link(
                 fmt`${payload.repository.name}#${payload.issue.number} ${payload.issue.title}`,
                 payload.issue.html_url,
@@ -67,7 +67,7 @@ export const messages: Record<
       case "opened": {
         const header = fmt`${
           bold(
-            fmt`🔌 New pull request ${
+            fmt`🔌 New pull request: ${
               link(
                 fmt`${payload.repository.name}#${payload.pull_request.number} ${payload.pull_request.title}`,
                 payload.pull_request.html_url,
@@ -89,45 +89,43 @@ export const messages: Record<
         );
       }
       case "review_requested": {
-        return fmt`${
-          bold(
-            fmt`👁‍🗨 New review request ${
-              link(
-                fmt`${payload.repository.name}#${payload.pull_request.number} ${payload.pull_request.title}`,
-                payload.pull_request.html_url,
-              )
-            }`,
-          )
-        }\nfrom ${
-          link(
-            fmt`@${payload.sender.login}`,
-            payload.sender.html_url,
-          )
-        } to ${
-          link(
-            fmt`@${payload.requested_reviewer.login}`,
-            payload.requested_reviewer.html_url,
-          )
-        }`;
+        return bold(
+          fmt`👁‍🗨 New review request on ${
+            link(
+              fmt`${payload.repository.name}#${payload.pull_request.number} ${payload.pull_request.title}`,
+              payload.pull_request.html_url,
+            )
+          } from ${
+            link(
+              fmt`@${payload.sender.login}`,
+              payload.sender.html_url,
+            )
+          } to ${
+            link(
+              fmt`@${payload.requested_reviewer.login}`,
+              payload.requested_reviewer.html_url,
+            )
+          }`,
+        );
       }
     }
   },
   "star": (payload) => {
     switch (payload.action) {
       case "created":
-        return fmt`${
-          bold(
-            fmt`💫 New star on ${
-              link(payload.repository.name, payload.repository.html_url)
-            }`,
-          )
-        }\nby ${link(fmt`@${payload.sender.login}`, payload.sender.html_url)}`;
+        return bold(
+          fmt`💫 New star on ${
+            link(payload.repository.name, payload.repository.html_url)
+          } by ${
+            link(fmt`@${payload.sender.login}`, payload.sender.html_url)
+          } `,
+        );
     }
   },
   "fork": (payload) => {
     return fmt`${
       bold(
-        fmt`🍴 New fork ${
+        fmt`🍴 New fork: ${
           link(payload.forkee.full_name, payload.forkee.html_url)
         }`,
       )
@@ -147,7 +145,7 @@ export const messages: Record<
         const header = fmt`${
           bold(fmt`${
             link(
-              fmt`${emoji} New review on ${payload.repository.name}#${payload.pull_request.number} ${payload.pull_request.title}`,
+              fmt`${emoji} New review: ${payload.repository.name}#${payload.pull_request.number} ${payload.pull_request.title} ${payload.review.id}`,
               payload.review.html_url,
             )
           }`)
@@ -170,7 +168,7 @@ export const messages: Record<
         const header = fmt`${
           bold(
             link(
-              fmt`💬 New comment on ${payload.repository.name}#${payload.issue.number} ${payload.issue.title}`,
+              fmt`💬 New comment: ${payload.repository.name}#${payload.issue.number} ${payload.issue.title} ${payload.comment.id}`,
               payload.comment.html_url,
             ),
           )
