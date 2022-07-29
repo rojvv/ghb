@@ -22,9 +22,15 @@ export const messages: Record<
         }`,
         payload.compare,
       )
-    } to ${payload.repository.name}:${
-      payload.ref.split("/")[2] ?? payload.ref
-    }:`}\n\n${
+    } to ${fmt`${link(payload.repository.name, payload.repository.html_url)}:${
+      link(
+        payload.ref.split("/")[2] ?? payload.ref,
+        new URL(
+          new URL(payload.repository.html_url).pathname + `/${payload.ref}`,
+          payload.repository.html_url,
+        ).href,
+      )
+    }`}:`}\n\n${
       fmt(
         [""].concat(payload.commits.map(() => "")),
         ...payload.commits.map((v: any) =>
