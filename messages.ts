@@ -165,7 +165,7 @@ export const messages: Record<
           )
         } ${
           link(
-            fmt`commented on ${payload.repository.name}#${payload.issue.number} ${payload.issue.title} ${payload.comment.id}`,
+            fmt`commented on ${payload.repository.name}#${payload.issue.number} ${payload.issue.title}`,
             payload.comment.html_url,
           )
         }:\n\n`;
