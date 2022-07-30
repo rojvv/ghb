@@ -162,8 +162,8 @@ export const messages: Record<
       case "edited": {
         const header = fmt`${
           link(
-            fmt`@${payload.comment.user.login}`,
-            payload.comment.user.html_url,
+            fmt`@${payload.sender.login}`,
+            payload.send.html_url,
           )
         } ${
           link(
