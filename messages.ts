@@ -26,7 +26,8 @@ export const messages: Record<
       link(
         payload.ref.split("/")[2] ?? payload.ref,
         new URL(
-          new URL(payload.repository.html_url).pathname + `/tree/${payload.ref}`,
+          new URL(payload.repository.html_url).pathname +
+            `/tree/${payload.ref}`,
           payload.repository.html_url,
         ).href,
       )
@@ -157,7 +158,8 @@ export const messages: Record<
   },
   "issue_comment": (payload) => {
     switch (payload.action) {
-      case "created": {
+      case "created":
+      case "edited": {
         const header = fmt`${
           link(
             fmt`@${payload.comment.user.login}`,
@@ -165,7 +167,11 @@ export const messages: Record<
           )
         } ${
           link(
-            fmt`commented on ${payload.repository.name}#${payload.issue.number} ${payload.issue.title}`,
+            fmt`${
+              payload.action == "created"
+                ? "commented on"
+                : "edited a comment in"
+            } ${payload.repository.name}#${payload.issue.number} ${payload.issue.title}`,
             payload.comment.html_url,
           )
         }:\n\n`;
