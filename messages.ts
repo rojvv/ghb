@@ -163,7 +163,7 @@ export const messages: Record<
         const header = fmt`${
           link(
             fmt`@${payload.sender.login}`,
-            payload.send.html_url,
+            payload.sender.html_url,
           )
         } ${
           link(
