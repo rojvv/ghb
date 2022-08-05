@@ -183,4 +183,14 @@ export const messages: Record<
       }
     }
   },
+  "ping": (payload) => {
+    const isRepository = payload.hook.type == "Repository";
+    return fmt`Webhook activated for the ${
+      isRepository ? "repository" : "organization"
+    } ${
+      isRepository
+        ? link(payload.repository.full_name, payload.repository.html_url)
+        : link(payload.organization.login, payload.organization.html_url)
+    }.`;
+  },
 };
