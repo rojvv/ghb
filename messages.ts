@@ -166,10 +166,10 @@ export const messages: Record<
             payload.sender.html_url,
           )
         } ${
+          payload.action == "created" ? "created" : "edited"
+        } ${
           link(
-            fmt`${
-              payload.action == "created" ? "created" : "edited"
-            } ${payload.repository.name}#${payload.issue.number} (comment)`,
+            fmt`${payload.repository.name}#${payload.issue.number} (comment)`,
             payload.comment.html_url,
           )
         }:\n\n`;
