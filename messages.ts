@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 // Credits go to github.com/vrumger/gibhugbot.
-import { fmt, FormattedString, italic, link } from "./deps.ts";
+import { fmt, FormattedString, italic, link, Stringable } from "./deps.ts";
 
 export const messages: Record<
   string,
@@ -131,10 +131,10 @@ export const messages: Record<
     switch (payload.action) {
       case "submitted": {
         const verb = ({
-          "commented": "reviewed",
-          "approved": "approved",
+          "commented": link("reviewed", payload.review.html_url),
+          "approved": link("approved", payload.review.html_url),
           "changes_requested": "requested changes on",
-        } as Record<string, string>)[payload.review.state];
+        } as Record<string, Stringable>)[payload.review.state];
         if (!verb) {
           return;
         }
@@ -165,9 +165,7 @@ export const messages: Record<
             fmt`@${payload.sender.login}`,
             payload.sender.html_url,
           )
-        } ${
-          payload.action == "created" ? "created" : "edited"
-        } ${
+        } ${payload.action == "created" ? "created" : "edited"} ${
           link(
             fmt`${payload.repository.name}#${payload.issue.number} (comment)`,
             payload.comment.html_url,
