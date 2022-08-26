@@ -189,4 +189,14 @@ export const messages: Record<
         : link(payload.organization.login, payload.organization.html_url)
     }.`;
   },
+  "delete": (payload) => {
+    return fmt`${
+      link(
+        fmt`@${payload.sender.login}`,
+        payload.sender.html_url,
+      )
+    } deleted the ${payload.ref_type} ${payload.ref} of ${
+      link(payload.repository.full_name, payload.repository.html_url)
+    }.`;
+  },
 };
