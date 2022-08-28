@@ -117,7 +117,9 @@ export const messages: Record<
           link(fmt`@${payload.sender.login}`, payload.sender.html_url)
         } starred ${
           link(payload.repository.name, payload.repository.html_url)
-        }.`;
+        }. ${
+          link(payload.repository.name, payload.repository.html_url)
+        } now has ${payload.repository.stargazers_count} stars.`;
     }
   },
   "fork": (payload) => {
