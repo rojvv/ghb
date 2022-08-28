@@ -15,7 +15,7 @@ export const messages: Record<
         fmt`@${payload.sender.login}`,
         payload.sender.html_url,
       )
-    } pushed ${
+    } ${payload.forced ? "forced" : "pushed"} ${
       link(
         fmt`${payload.commits.length} commit${
           payload.commits.length == 1 ? "" : "s"
