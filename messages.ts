@@ -188,7 +188,10 @@ export const messages: Record<
     } ${
       isRepository
         ? link(payload.repository.full_name, payload.repository.html_url)
-        : link(payload.organization.login, payload.organization.html_url)
+        : link(
+          payload.organization.login,
+          `https://github.com/${payload.organization.login}`,
+        )
     }.`;
   },
   "delete": (payload) => {
