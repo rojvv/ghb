@@ -1,4 +1,4 @@
-# Public GitHub Notification Webhook
+# Public GitHub-Telegram Notification Webhook
 
 ## Installation
 
