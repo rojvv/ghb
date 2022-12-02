@@ -1,4 +1,6 @@
-import { Application, Bot, ParseModeContext } from "./deps.ts";
+import { Application } from "oak/mod.ts";
+import { Bot, Context } from "grammy/mod.ts";
+import { ParseModeFlavor } from "grammy_parse_mode/mod.ts";
 import { messages } from "./messages.ts";
 
 const app = new Application();
@@ -21,7 +23,7 @@ app.use(async (ctx) => {
   const token = ctx.request.url.searchParams.get("token");
   const chatId = ctx.request.url.searchParams.get("chatId");
   if (token && chatId) {
-    const bot = new Bot<ParseModeContext>(token);
+    const bot = new Bot<ParseModeFlavor<Context>>(token);
     const text = messages[event]?.(payload);
     if (text != undefined) {
       await bot.api.sendMessage(chatId, text.toString(), {
