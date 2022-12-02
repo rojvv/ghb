@@ -1,6 +1,12 @@
 // deno-lint-ignore-file no-explicit-any
 // Credits go to github.com/vrumger/gibhugbot.
-import { fmt, FormattedString, italic, link, Stringable } from "./deps.ts";
+import {
+  fmt,
+  FormattedString,
+  italic,
+  link,
+  Stringable,
+} from "grammy_parse_mode/mod.ts";
 
 export const messages: Record<
   string,
