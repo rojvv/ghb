@@ -24,12 +24,18 @@ app.use(async (ctx) => {
   const chatId = ctx.request.url.searchParams.get("chatId");
   if (token && chatId) {
     const bot = new Bot<ParseModeFlavor<Context>>(token);
-    const text = messages[event]?.(payload);
+    const formattedString = messages[event]?.(payload);
+    const text = formattedString?.toString();
+    const entities = formattedString?.entities;
     if (text != undefined) {
-      await bot.api.sendMessage(chatId, text.toString(), {
-        entities: text.entities,
-        disable_web_page_preview: true,
-      });
+      await bot.api.sendMessage(
+        chatId,
+        text.toString().substring(0, 4093) + (text.length > 4093 ? "..." : ""),
+        {
+          entities,
+          disable_web_page_preview: true,
+        },
+      );
     }
   }
   ctx.response.status = 200;
