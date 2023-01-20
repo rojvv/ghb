@@ -1,7 +1,7 @@
 {
   "imports": {
     "oak/": "https://deno.land/x/oak@v11.1.0/",
-    "grammy/": "https://deno.land/x/grammy@v1.11.2/",
+    "grammy/": "https://deno.land/x/grammy@v1.13.1/",
     "grammy_parse_mode/": "https://deno.land/x/grammy_parse_mode@1.5.0/"
   }
 }
