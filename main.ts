@@ -32,7 +32,9 @@ app.use(async (ctx) => {
         chatId,
         text.toString().substring(0, 4093) + (text.length > 4093 ? "..." : ""),
         {
-          entities,
+          entities: entities?.filter((v) =>
+            !(v.offset > 4093 && !((v.offset + v.length) > 4093))
+          ),
           disable_web_page_preview: true,
         },
       );
