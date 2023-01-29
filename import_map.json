@@ -2,6 +2,8 @@
   "imports": {
     "oak/": "https://deno.land/x/oak@v11.1.0/",
     "grammy/": "https://deno.land/x/grammy@v1.13.1/",
-    "grammy_parse_mode/": "https://deno.land/x/grammy_parse_mode@1.5.0/"
+    "grammy_parse_mode/": "https://deno.land/x/grammy_parse_mode@1.5.0/",
+    "marked": "https://deno.land/x/marked@1.0.1/mod.ts",
+    "deno_dom": "https://deno.land/x/deno_dom@v0.1.36-alpha/deno-dom-wasm.ts"
   }
 }
