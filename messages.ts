@@ -7,6 +7,7 @@ import {
   link,
   Stringable,
 } from "grammy_parse_mode/mod.ts";
+import { cleanMarkdown } from "./utils.ts";
 
 export const messages: Record<
   string,
@@ -66,7 +67,10 @@ export const messages: Record<
           ["", "", ""],
           header,
           payload.issue.body
-            ? italic(payload.issue.body.slice(0, 4096 - header.text.length))
+            ? italic(
+              cleanMarkdown(payload.issue.body)
+                .slice(0, 4096 - header.text.length),
+            )
             : "",
         );
       }
@@ -91,7 +95,8 @@ export const messages: Record<
           header,
           payload.pull_request.body
             ? italic(
-              payload.pull_request.body.slice(0, 4096 - header.text.length),
+              cleanMarkdown(payload.pull_request.body)
+                .slice(0, 4096 - header.text.length),
             )
             : "",
         );
@@ -156,7 +161,10 @@ export const messages: Record<
           ["", "", ""],
           header,
           payload.review.body
-            ? italic(payload.review.body.slice(0, 4096 - header.text.length))
+            ? italic(
+              cleanMarkdown(payload.review.body)
+                .slice(0, 4096 - header.text.length),
+            )
             : "",
         );
       }
@@ -180,7 +188,10 @@ export const messages: Record<
         return fmt(
           ["", "", ""],
           header,
-          italic(payload.comment.body.slice(0, 4096 - header.text.length)),
+          italic(
+            cleanMarkdown(payload.comment.body)
+              .slice(0, 4096 - header.text.length),
+          ),
         );
       }
     }
