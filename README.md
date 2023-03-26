@@ -11,7 +11,7 @@
 - Set the Payload URL to
 
 ```text
-https://ghb.deno.dev/?token=your_bot_token&chat_id=your_chat_id
+https://ghb.deno.dev/?token=your_bot_token&chatId=your_chat_id
 ```
 
 - Set the Content type to `application/json`.
