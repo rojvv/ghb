@@ -129,6 +129,12 @@ export const messages: Record<
         } starred ${
           link(payload.repository.name, payload.repository.html_url)
         }.`;
+      case "deleted":
+        return fmt`${
+          link(fmt`@${payload.sender.login}`, payload.sender.html_url)
+        } removed their star on ${
+          link(payload.repository.name, payload.repository.html_url)
+        }.`;
     }
   },
   "fork": (payload) => {
