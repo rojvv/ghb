@@ -7,7 +7,7 @@ import {
   link,
   Stringable,
 } from "grammy_parse_mode/mod.ts";
-import { cleanMarkdown } from "./utils.ts";
+import { cleanMarkdown, updateHeader } from "./utils.ts";
 
 export const messages: Record<
   string,
@@ -52,7 +52,7 @@ export const messages: Record<
   "issues": (payload) => {
     switch (payload.action) {
       case "opened": {
-        const header = fmt`${fmt`${
+        let header = fmt`${fmt`${
           link(
             fmt`@${payload.issue.user.login}`,
             payload.issue.user.html_url,
@@ -62,16 +62,20 @@ export const messages: Record<
             fmt`${payload.repository.name}#${payload.issue.number} ${payload.issue.title}`,
             payload.issue.html_url,
           )
-        }`}${payload.issue.body ? ":" : "."}\n\n`;
+        }`}.\n\n`;
+        const body = payload.issue.body
+          ? italic(
+            cleanMarkdown(payload.issue.body)
+              .slice(0, 4096 - header.text.length),
+          )
+          : "";
+        if (body) {
+          header = updateHeader(header);
+        }
         return fmt(
           ["", "", ""],
           header,
-          payload.issue.body
-            ? italic(
-              cleanMarkdown(payload.issue.body)
-                .slice(0, 4096 - header.text.length),
-            )
-            : "",
+          body,
         );
       }
     }
@@ -79,7 +83,7 @@ export const messages: Record<
   "pull_request": (payload) => {
     switch (payload.action) {
       case "opened": {
-        const header = fmt`${
+        let header = fmt`${
           link(
             fmt`@${payload.pull_request.user.login}`,
             payload.pull_request.user.html_url,
@@ -89,16 +93,20 @@ export const messages: Record<
             fmt`${payload.repository.name}#${payload.pull_request.number} ${payload.pull_request.title}`,
             payload.pull_request.html_url,
           )
-        }${payload.pull_request.body ? ":" : "."}\n\n`;
+        }.\n\n`;
+        const body = payload.pull_request.body
+          ? italic(
+            cleanMarkdown(payload.pull_request.body)
+              .slice(0, 4096 - header.text.length),
+          )
+          : "";
+        if (body) {
+          header = updateHeader(header);
+        }
         return fmt(
           ["", "", ""],
           header,
-          payload.pull_request.body
-            ? italic(
-              cleanMarkdown(payload.pull_request.body)
-                .slice(0, 4096 - header.text.length),
-            )
-            : "",
+          body,
         );
       }
       case "review_requested": {
@@ -147,6 +155,11 @@ export const messages: Record<
   "pull_request_review": (payload) => {
     switch (payload.action) {
       case "submitted": {
+        if (
+          payload.review.state == "commented" && payload.review.body == null
+        ) {
+          return;
+        }
         const verb = ({
           "commented": link("reviewed", payload.review.html_url),
           "approved": link("approved", payload.review.html_url),
@@ -155,32 +168,68 @@ export const messages: Record<
         if (!verb) {
           return;
         }
-        const header = fmt`${
+        let header = fmt`${
           link(fmt`@${payload.sender.login}`, payload.sender.html_url)
         } ${verb} ${
           link(
             fmt`${payload.repository.name}#${payload.pull_request.number} ${payload.pull_request.title}`,
             payload.pull_request.html_url,
           )
-        }${payload.review.body ? ":" : "."}\n\n`;
+        }.\n\n`;
+        const body = payload.review.body
+          ? italic(
+            cleanMarkdown(payload.review.body)
+              .slice(0, 4096 - header.text.length),
+          )
+          : "";
+        if (body) {
+          header = updateHeader(header);
+        }
         return fmt(
           ["", "", ""],
           header,
-          payload.review.body
-            ? italic(
-              cleanMarkdown(payload.review.body)
-                .slice(0, 4096 - header.text.length),
-            )
-            : "",
+          body,
         );
       }
     }
+  },
+  "pull_request_review_comment": (payload) => {
+    switch (payload.action) {
+      case "created": {
+        const reviewUrl = new URL(
+          `pull/${payload.pull_request.number}#pullrequestreview-${payload.comment.pull_request_review_id}`,
+          (payload.repository.html_url + "/").replaceAll("//", "/"),
+        ).href;
+        let header = fmt`${
+          link(
+            fmt`@${payload.sender.login}`,
+            payload.sender.html_url,
+          )
+        } ${link("commented", payload.comment.html_url)} on ${
+          link(
+            fmt`${payload.repository.name}#${payload.pull_request.number} (review)`,
+            reviewUrl,
+          )
+        }.\n\n`;
+        const body = payload.comment.body
+          ? italic(
+            cleanMarkdown(payload.comment.body)
+              .slice(0, 4096 - header.text.length),
+          )
+          : "";
+        if (body) {
+          header = updateHeader(header);
+        }
+        return fmt(["", "", ""], header, body);
+      }
+    }
+    return fmt`${(JSON.stringify(payload))}`;
   },
   "issue_comment": (payload) => {
     switch (payload.action) {
       case "created":
       case "edited": {
-        const header = fmt`${
+        let header = fmt`${
           link(
             fmt`@${payload.sender.login}`,
             payload.sender.html_url,
@@ -190,14 +239,18 @@ export const messages: Record<
             fmt`${payload.repository.name}#${payload.issue.number} (comment)`,
             payload.comment.html_url,
           )
-        }:\n\n`;
+        }.\n\n`;
+        const body = italic(
+          cleanMarkdown(payload.comment.body)
+            .slice(0, 4096 - header.text.length),
+        );
+        if (body) {
+          header = updateHeader(header);
+        }
         return fmt(
           ["", "", ""],
           header,
-          italic(
-            cleanMarkdown(payload.comment.body)
-              .slice(0, 4096 - header.text.length),
-          ),
+          body,
         );
       }
     }
