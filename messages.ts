@@ -223,7 +223,6 @@ export const messages: Record<
         return fmt(["", "", ""], header, body);
       }
     }
-    return fmt`${(JSON.stringify(payload))}`;
   },
   "issue_comment": (payload) => {
     switch (payload.action) {
