@@ -61,6 +61,7 @@ export const messages: Record<
     switch (payload.action) {
       case "edited":
       case "closed":
+      case "reopened":
       case "opened": {
         let header = fmt`${sender} ${payload.action} ${issue}.\n\n`;
         const body = payload.action == "opened" || payload.action == "edited"
