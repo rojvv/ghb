@@ -72,7 +72,7 @@ export const messages: Record<
                 .slice(0, 4096 - header.text.length),
             )
             : ""
-          : "closed";
+          : "";
         if (body) {
           header = updateHeader(header);
         }
