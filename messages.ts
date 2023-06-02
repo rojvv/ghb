@@ -130,6 +130,14 @@ export const messages: Record<
           )
         } to review ${pullRequest}.`;
       }
+      case "labeled":
+        return fmt`${sender} added the label ${
+          italic(payload.label.name)
+        } to ${pullRequest}.`;
+      case "unlabeled":
+        return fmt`${sender} removed the label ${
+          italic(payload.label.name)
+        } from ${pullRequest}.`;
     }
   },
   "star": (payload) => {
