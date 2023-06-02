@@ -51,24 +51,28 @@ export const messages: Record<
   },
   "issues": (payload) => {
     switch (payload.action) {
+      case "edited":
+      case "closed":
       case "opened": {
         let header = fmt`${fmt`${
           link(
             fmt`@${payload.issue.user.login}`,
             payload.issue.user.html_url,
           )
-        } opened ${
+        } ${payload.action} ${
           link(
             fmt`${payload.repository.name}#${payload.issue.number} ${payload.issue.title}`,
             payload.issue.html_url,
           )
         }`}.\n\n`;
-        const body = payload.issue.body
-          ? italic(
-            cleanMarkdown(payload.issue.body)
-              .slice(0, 4096 - header.text.length),
-          )
-          : "";
+        const body = payload.action == "opened" || payload.action == "edited"
+          ? payload.issue.body
+            ? italic(
+              cleanMarkdown(payload.issue.body)
+                .slice(0, 4096 - header.text.length),
+            )
+            : ""
+          : "closed";
         if (body) {
           header = updateHeader(header);
         }
