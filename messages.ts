@@ -50,21 +50,19 @@ export const messages: Record<
     }`;
   },
   "issues": (payload) => {
+    const sender = link(
+      fmt`@${payload.issue.user.login}`,
+      payload.issue.user.html_url,
+    );
+    const issue = link(
+      fmt`${payload.repository.name}#${payload.issue.number} ${payload.issue.title}`,
+      payload.issue.html_url,
+    );
     switch (payload.action) {
       case "edited":
       case "closed":
       case "opened": {
-        let header = fmt`${fmt`${
-          link(
-            fmt`@${payload.issue.user.login}`,
-            payload.issue.user.html_url,
-          )
-        } ${payload.action} ${
-          link(
-            fmt`${payload.repository.name}#${payload.issue.number} ${payload.issue.title}`,
-            payload.issue.html_url,
-          )
-        }`}.\n\n`;
+        let header = fmt`${sender} ${payload.action} ${issue}.\n\n`;
         const body = payload.action == "opened" || payload.action == "edited"
           ? payload.issue.body
             ? italic(
@@ -82,27 +80,38 @@ export const messages: Record<
           body,
         );
       }
+      case "labeled":
+        return fmt`${sender} added the label ${
+          italic(payload.label.name)
+        } to ${issue}.`;
+      case "unlabeled":
+        return fmt`${sender} removed the label ${
+          italic(payload.label.name)
+        } from ${issue}.`;
     }
   },
   "pull_request": (payload) => {
+    const sender = link(
+      fmt`@${payload.sender.login}`,
+      payload.sender.html_url,
+    );
+    const pullRequest = link(
+      fmt`${payload.repository.name}#${payload.pull_request.number} ${payload.pull_request.title}`,
+      payload.pull_request.html_url,
+    );
     switch (payload.action) {
+      case "edited":
+      case "closed":
+      case "reopened":
       case "opened": {
-        let header = fmt`${
-          link(
-            fmt`@${payload.pull_request.user.login}`,
-            payload.pull_request.user.html_url,
-          )
-        } opened ${
-          link(
-            fmt`${payload.repository.name}#${payload.pull_request.number} ${payload.pull_request.title}`,
-            payload.pull_request.html_url,
-          )
-        }.\n\n`;
-        const body = payload.pull_request.body
-          ? italic(
-            cleanMarkdown(payload.pull_request.body)
-              .slice(0, 4096 - header.text.length),
-          )
+        let header = fmt`${sender} ${payload.action} ${pullRequest}.\n\n`;
+        const body = payload.action == "opened" || payload.action == "edited"
+          ? payload.pull_request.body
+            ? italic(
+              cleanMarkdown(payload.pull_request.body)
+                .slice(0, 4096 - header.text.length),
+            )
+            : ""
           : "";
         if (body) {
           header = updateHeader(header);
@@ -114,22 +123,12 @@ export const messages: Record<
         );
       }
       case "review_requested": {
-        return fmt`${
-          link(
-            fmt`@${payload.sender.login}`,
-            payload.sender.html_url,
-          )
-        } requested ${
+        return fmt`${sender} requested ${
           link(
             fmt`@${payload.requested_reviewer.login}`,
             payload.requested_reviewer.html_url,
           )
-        } to review ${
-          link(
-            fmt`${payload.repository.name}#${payload.pull_request.number} ${payload.pull_request.title}`,
-            payload.pull_request.html_url,
-          )
-        }.`;
+        } to review ${pullRequest}.`;
       }
     }
   },
@@ -144,7 +143,7 @@ export const messages: Record<
       case "deleted":
         return fmt`${
           link(fmt`@${payload.sender.login}`, payload.sender.html_url)
-        } removed their star on ${
+        } unstarred ${
           link(payload.repository.name, payload.repository.html_url)
         }.`;
     }
