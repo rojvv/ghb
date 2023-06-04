@@ -289,4 +289,15 @@ export const messages: Record<
       link(payload.repository.name, payload.repository.html_url)
     }.`;
   },
+  "release": (payload) => {
+    switch (payload.action) {
+      case "created":
+        return fmt`${
+          link(
+            `${payload.repository.name} ${payload.release.name}`,
+            payload.release.html_url,
+          )
+        } was released.`;
+    }
+  },
 };
