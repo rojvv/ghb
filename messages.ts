@@ -161,7 +161,7 @@ export const messages: Record<
     return fmt`${
       link(fmt`@${payload.sender.login}`, payload.sender.html_url)
     } forked ${link(payload.forkee.full_name, payload.forkee.html_url)} from ${
-      link(payload.repository.full_name, payload.repository.html_url)
+      link(payload.repository.name, payload.repository.html_url)
     }.`;
   },
   "pull_request_review": (payload) => {
@@ -272,7 +272,7 @@ export const messages: Record<
       isRepository ? "repository" : "organization"
     } ${
       isRepository
-        ? link(payload.repository.full_name, payload.repository.html_url)
+        ? link(payload.repository.name, payload.repository.html_url)
         : link(
           payload.organization.login,
           `https://github.com/${payload.organization.login}`,
@@ -286,7 +286,7 @@ export const messages: Record<
         payload.sender.html_url,
       )
     } deleted the ${payload.ref_type} ${payload.ref} of ${
-      link(payload.repository.full_name, payload.repository.html_url)
+      link(payload.repository.name, payload.repository.html_url)
     }.`;
   },
 };
