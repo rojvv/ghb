@@ -7,7 +7,7 @@ import {
   link,
   Stringable,
 } from "grammy_parse_mode/mod.ts";
-import { cleanMarkdown, updateHeader } from "./utils.ts";
+import { cleanMarkdown, getSenderText, updateHeader } from "./utils.ts";
 
 export const messages: Record<
   string,
@@ -17,12 +17,9 @@ export const messages: Record<
     if (payload.commits.length <= 0) {
       return;
     }
-    return fmt`${fmt`${
-      link(
-        fmt`@${payload.sender.login}`,
-        payload.sender.html_url,
-      )
-    } ${payload.forced ? "forced" : "pushed"} ${
+    return fmt`${fmt`${getSenderText(payload.sender)} ${
+      payload.forced ? "forced" : "pushed"
+    } ${
       link(
         fmt`${payload.commits.length} commit${
           payload.commits.length == 1 ? "" : "s"
@@ -92,10 +89,7 @@ export const messages: Record<
     }
   },
   "pull_request": (payload) => {
-    const sender = link(
-      fmt`@${payload.sender.login}`,
-      payload.sender.html_url,
-    );
+    const sender = getSenderText(payload.sender);
     const pullRequest = link(
       fmt`${payload.repository.name}#${payload.pull_request.number} ${payload.pull_request.title}`,
       payload.pull_request.html_url,
@@ -144,25 +138,19 @@ export const messages: Record<
   "star": (payload) => {
     switch (payload.action) {
       case "created":
-        return fmt`${
-          link(fmt`@${payload.sender.login}`, payload.sender.html_url)
-        } starred ${
+        return fmt`${getSenderText(payload.sender)} starred ${
           link(payload.repository.name, payload.repository.html_url)
         }.`;
       case "deleted":
-        return fmt`${
-          link(fmt`@${payload.sender.login}`, payload.sender.html_url)
-        } unstarred ${
+        return fmt`${getSenderText(payload.sender)} unstarred ${
           link(payload.repository.name, payload.repository.html_url)
         }.`;
     }
   },
   "fork": (payload) => {
-    return fmt`${
-      link(fmt`@${payload.sender.login}`, payload.sender.html_url)
-    } forked ${link(payload.forkee.full_name, payload.forkee.html_url)} from ${
-      link(payload.repository.name, payload.repository.html_url)
-    }.`;
+    return fmt`${getSenderText(payload.sender)} forked ${
+      link(payload.forkee.full_name, payload.forkee.html_url)
+    } from ${link(payload.repository.name, payload.repository.html_url)}.`;
   },
   "pull_request_review": (payload) => {
     switch (payload.action) {
@@ -180,9 +168,7 @@ export const messages: Record<
         if (!verb) {
           return;
         }
-        let header = fmt`${
-          link(fmt`@${payload.sender.login}`, payload.sender.html_url)
-        } ${verb} ${
+        let header = fmt`${getSenderText(payload.sender)} ${verb} ${
           link(
             fmt`${payload.repository.name}#${payload.pull_request.number} ${payload.pull_request.title}`,
             payload.pull_request.html_url,
@@ -212,12 +198,9 @@ export const messages: Record<
           `pull/${payload.pull_request.number}#pullrequestreview-${payload.comment.pull_request_review_id}`,
           (payload.repository.html_url + "/").replaceAll("//", "/"),
         ).href;
-        let header = fmt`${
-          link(
-            fmt`@${payload.sender.login}`,
-            payload.sender.html_url,
-          )
-        } ${link("commented", payload.comment.html_url)} on ${
+        let header = fmt`${getSenderText(payload.sender)} ${
+          link("commented", payload.comment.html_url)
+        } on ${
           link(
             fmt`${payload.repository.name}#${payload.pull_request.number} (review)`,
             reviewUrl,
@@ -240,12 +223,9 @@ export const messages: Record<
     switch (payload.action) {
       case "created":
       case "edited": {
-        let header = fmt`${
-          link(
-            fmt`@${payload.sender.login}`,
-            payload.sender.html_url,
-          )
-        } ${payload.action == "created" ? "created" : "edited"} ${
+        let header = fmt`${getSenderText(payload.sender)} ${
+          payload.action == "created" ? "created" : "edited"
+        } ${
           link(
             fmt`${payload.repository.name}#${payload.issue.number} (comment)`,
             payload.comment.html_url,
@@ -281,10 +261,7 @@ export const messages: Record<
   },
   "delete": (payload) => {
     return fmt`${
-      link(
-        fmt`@${payload.sender.login}`,
-        payload.sender.html_url,
-      )
+      getSenderText(payload.sender)
     } deleted the ${payload.ref_type} ${payload.ref} of ${
       link(payload.repository.name, payload.repository.html_url)
     }.`;
