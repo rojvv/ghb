@@ -48,8 +48,8 @@ export const messages: Record<
   },
   "issues": (payload) => {
     const sender = link(
-      fmt`@${payload.issue.user.login}`,
-      payload.issue.user.html_url,
+      fmt`@${payload.sender.login}`,
+      payload.sender.html_url,
     );
     const issue = link(
       fmt`${payload.repository.name}#${payload.issue.number} ${payload.issue.title}`,
