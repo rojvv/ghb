@@ -69,7 +69,7 @@ export const messages: Record<
             )
             : ""
           : "";
-        if (body) {
+        if (cleanMarkdown(body)) {
           header = updateHeader(header);
         }
         return fmt(
@@ -108,7 +108,7 @@ export const messages: Record<
             )
             : ""
           : "";
-        if (body) {
+        if (cleanMarkdown(body)) {
           header = updateHeader(header);
         }
         return fmt(
@@ -180,7 +180,7 @@ export const messages: Record<
               .slice(0, 4096 - header.text.length),
           )
           : "";
-        if (body) {
+        if (cleanMarkdown(body)) {
           header = updateHeader(header);
         }
         return fmt(
@@ -212,7 +212,7 @@ export const messages: Record<
               .slice(0, 4096 - header.text.length),
           )
           : "";
-        if (body) {
+        if (cleanMarkdown(body)) {
           header = updateHeader(header);
         }
         return fmt(["", "", ""], header, body);
@@ -235,7 +235,7 @@ export const messages: Record<
           cleanMarkdown(payload.comment.body)
             .slice(0, 4096 - header.text.length),
         );
-        if (body) {
+        if (cleanMarkdown(body)) {
           header = updateHeader(header);
         }
         return fmt(
