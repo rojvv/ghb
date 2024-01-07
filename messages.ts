@@ -282,7 +282,7 @@ export const messages: Record<
     const url = payload.deployment_status.environment_url;
     switch (payload.action) {
       case "created":
-        return fmt`${sender} created a new ${payload.deployment_status.environment} deployment in ${
+        return fmt`${sender} made a ${payload.deployment_status.environment} deployment in ${
           link(payload.repository.name, payload.repository.html_url)
         }${url ? `: ${url}` : "."}`;
     }
