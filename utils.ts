@@ -7,7 +7,7 @@ import usernameDirectory from "./username_directory.json" assert {
 
 export function cleanMarkdown(markdown: string) {
   const dom = new DOMParser().parseFromString(
-    marked.parse(markdown),
+    marked.parse(markdown) as string,
     "text/html",
   );
   return (dom?.textContent ?? markdown).trim();
