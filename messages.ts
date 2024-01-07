@@ -277,4 +277,14 @@ export const messages: Record<
         } was released.`;
     }
   },
+  "deployment_status": (payload) => {
+    const sender = getSenderText(payload.sender);
+    const url = payload.deployment_status.environment_url;
+    switch (payload.action) {
+      case "created":
+        return fmt`${sender} created a new ${payload.deployment_status.environment} deployment in ${
+          link(payload.repository.name, payload.repository.html_url)
+        }${url ? `: ${url}` : "."}`;
+    }
+  },
 };
