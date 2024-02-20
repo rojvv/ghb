@@ -19,7 +19,7 @@ app.use(async (ctx) => {
   if (!event) {
     return ctx.response.redirect("https://github.com/roj1512/ghb");
   }
-  const payload = await ctx.request.body({ type: "json" }).value;
+  const payload = await ctx.request.body.json();
   const token = ctx.request.url.searchParams.get("token");
   const chatId = ctx.request.url.searchParams.get("chatId");
   if (token && chatId) {
