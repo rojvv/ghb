@@ -99,7 +99,13 @@ export const messages: Record<
       case "closed":
       case "reopened":
       case "opened": {
-        let header = fmt`${sender} ${payload.action} ${pullRequest}.\n\n`;
+        const merged = payload.action == "closed" &&
+          payload.pull_request.merged;
+        let header = fmt`${sender} ${
+          merged ? "merged" : payload.action
+        } ${pullRequest}${
+          merged ? ` into ${payload.pull_request.ref}` : ""
+        }.\n\n`;
         const body = payload.action == "opened" || payload.action == "edited"
           ? payload.pull_request.body
             ? italic(
