@@ -104,7 +104,7 @@ export const messages: Record<
         let header = fmt`${sender} ${
           merged ? "merged" : payload.action
         } ${pullRequest}${
-          merged ? ` into ${payload.pull_request.ref}` : ""
+          merged ? ` into ${payload.pull_request.base.ref}` : ""
         }.\n\n`;
         const body = payload.action == "opened" || payload.action == "edited"
           ? payload.pull_request.body
