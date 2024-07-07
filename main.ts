@@ -17,7 +17,7 @@ app.use(async (ctx, next) => {
 app.use(async (ctx) => {
   const event = ctx.request.headers.get("x-github-event");
   if (!event) {
-    return ctx.response.redirect("https://github.com/roj1512/ghb");
+    return ctx.response.redirect("https://github.com/rojvv/ghb");
   }
   const payload = await ctx.request.body.json();
   const token = ctx.request.url.searchParams.get("token");
