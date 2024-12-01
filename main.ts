@@ -1,4 +1,4 @@
-import { Application } from "oak/mod.ts";
+import { Application } from "@oak/oak";
 import { Bot, Context } from "grammy/mod.ts";
 import { ParseModeFlavor } from "grammy_parse_mode/mod.ts";
 import { messages } from "./messages.ts";
@@ -22,7 +22,8 @@ app.use(async (ctx) => {
   const payload = await ctx.request.body.json();
   const token = ctx.request.url.searchParams.get("token");
   const chatId = ctx.request.url.searchParams.get("chatId");
-  const messageThreadId = ctx.request.url.searchParams.get("messageThreadId") ?? undefined;
+  const messageThreadId = ctx.request.url.searchParams.get("messageThreadId") ??
+    undefined;
   if (token && chatId) {
     const bot = new Bot<ParseModeFlavor<Context>>(token);
     const formattedString = messages[event]?.(payload);
@@ -35,7 +36,9 @@ app.use(async (ctx) => {
         {
           entities: entities?.filter((v) => !((v.offset + v.length) > 4093)),
           link_preview_options: { is_disabled: true },
-          message_thread_id: messageThreadId,
+          ...(messageThreadId
+            ? { reply_parameters: { message_id: Number(messageThreadId) } }
+            : {}),
         },
       );
     }

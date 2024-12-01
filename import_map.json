@@ -1,9 +1,9 @@
 {
-  "imports": {
-    "oak/": "https://deno.land/x/oak@v13.2.5/",
-    "grammy/": "https://deno.land/x/grammy@v1.21.1/",
-    "grammy_parse_mode/": "https://deno.land/x/grammy_parse_mode@1.9.0/",
-    "marked": "https://deno.land/x/marked@1.0.2/mod.ts",
-    "deno_dom": "https://deno.land/x/deno_dom@v0.1.45/deno-dom-wasm.ts"
-  }
+  // "imports": {
+  //   "oak/": "https://deno.land/x/oak@v13.2.5/",
+  //   "grammy/": "https://deno.land/x/grammy@v1.21.1/",
+  //   "grammy_parse_mode/": "https://deno.land/x/grammy_parse_mode@1.9.0/",
+  //   "marked": "https://deno.land/x/marked@1.0.2/mod.ts",
+  //   "deno_dom": "https://deno.land/x/deno_dom@v0.1.45/deno-dom-wasm.ts"
+  // }
 }
