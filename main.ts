@@ -46,4 +46,4 @@ app.use(async (ctx) => {
   ctx.response.status = 200;
 });
 
-app.listen({ port: 8000 });
+app.listen({ port: +(Deno.env.get("PORT") + "") || 8000 });
