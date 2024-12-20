@@ -17,6 +17,7 @@ export const messages: Record<
     if (payload.commits.length <= 0) {
       return;
     }
+    const ref = payload.ref.split("/").slice(2).join("\n") || payload.ref;
     return fmt`${fmt`${getSenderText(payload.sender)} ${
       payload.forced ? "forced" : "pushed"
     } ${
@@ -28,10 +29,10 @@ export const messages: Record<
       )
     } to ${fmt`${link(payload.repository.name, payload.repository.html_url)}:${
       link(
-        payload.ref.split("/")[2] ?? payload.ref,
+        ref,
         new URL(
           new URL(payload.repository.html_url).pathname +
-            `/tree/${payload.ref}`,
+            `/tree/${ref}`,
           payload.repository.html_url,
         ).href,
       )
