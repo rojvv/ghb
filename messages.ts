@@ -17,7 +17,7 @@ export const messages: Record<
     if (payload.commits.length <= 0) {
       return;
     }
-    const ref = payload.ref.split("/").slice(2).join("\n") || payload.ref;
+    const ref = payload.ref.split("/").slice(2).join("/") || payload.ref;
     return fmt`${fmt`${getSenderText(payload.sender)} ${
       payload.forced ? "forced" : "pushed"
     } ${
