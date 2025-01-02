@@ -1,6 +1,6 @@
 import { DOMParser } from "@b-fuze/deno-dom";
 import { marked } from "marked";
-import { fmt, FormattedString, link } from "grammy_parse_mode/mod.ts";
+import { fmt, FormattedString, link } from "grammy_parse_mode/mod.ts"; 
 import usernameDirectory from "./username_directory.json" with { type: "json" };
 
 export function cleanMarkdown(markdown: string) {
