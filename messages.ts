@@ -48,10 +48,7 @@ export const messages: Record<
     }`;
   },
   "issues": (payload) => {
-    const sender = link(
-      fmt`@${payload.sender.login}`,
-      payload.sender.html_url,
-    );
+    const sender = getSenderText(payload.sender);
     const issue = link(
       fmt`${payload.repository.name}#${payload.issue.number} ${payload.issue.title}`,
       payload.issue.html_url,
