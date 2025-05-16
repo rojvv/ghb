@@ -9,6 +9,7 @@ import {
 } from "grammy_parse_mode/mod.ts";
 import { cleanMarkdown, getSenderText, updateHeader } from "./utils.ts";
 
+const numberFormat = new Intl.NumberFormat();
 export const messages: Record<
   string,
   (payload: any) => FormattedString | undefined
@@ -140,15 +141,18 @@ export const messages: Record<
     }
   },
   "star": (payload) => {
+    const newStarCount = numberFormat.format(
+      payload.repository.stargazers_count,
+    );
     switch (payload.action) {
       case "created":
         return fmt`${getSenderText(payload.sender)} starred ${
           link(payload.repository.name, payload.repository.html_url)
-        }.`;
+        }. New star count: ${newStarCount}`;
       case "deleted":
         return fmt`${getSenderText(payload.sender)} unstarred ${
           link(payload.repository.name, payload.repository.html_url)
-        }.`;
+        }. New star count: ${newStarCount}`;
     }
   },
   "fork": (payload) => {
