@@ -1,7 +1,6 @@
 import { DOMParser } from "@b-fuze/deno-dom";
 import { marked } from "marked";
-import { fmt, FormattedString, link } from "grammy_parse_mode/mod.ts";
-import usernameDirectory from "./username_directory.json" with { type: "json" };
+import { FormattedString, link } from "grammy_parse_mode/mod.ts";
 
 export function cleanMarkdown(markdown: string) {
   const dom = new DOMParser().parseFromString(
@@ -20,9 +19,5 @@ export function updateHeader(header: FormattedString) {
 
 // deno-lint-ignore no-explicit-any
 export function getSenderText(sender: any) {
-  const username =
-    (usernameDirectory as Record<string, string | undefined>)[sender.login];
-  return fmt`${link(`@${sender.login}`, sender.html_url)}${
-    username ? fmt` (${link(`@${username}`, `https://t.me/${username}`)})` : ""
-  }`;
+  return link(`@${sender.login}`, sender.html_url);
 }
