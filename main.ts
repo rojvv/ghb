@@ -2,6 +2,7 @@ import { Application } from "@oak/oak";
 import { Bot, Context } from "grammy/mod.ts";
 import { ParseModeFlavor } from "grammy_parse_mode/mod.ts";
 import { messages } from "./messages.ts";
+import { autoRetry } from "grammy_auto_retry/mod.ts";
 
 const app = new Application();
 
@@ -26,6 +27,8 @@ app.use(async (ctx) => {
     undefined;
   if (token && chatId) {
     const bot = new Bot<ParseModeFlavor<Context>>(token);
+    bot.api.config.use(autoRetry());
+
     const formattedString = messages[event]?.(payload);
     const text = formattedString?.toString();
     const entities = formattedString?.entities;

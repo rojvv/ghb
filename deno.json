@@ -5,6 +5,7 @@
     "@oak/oak": "jsr:@oak/oak@^17.1.4",
     "marked": "npm:marked@^15.0.6",
     "grammy/": "https://deno.land/x/grammy@v1.34.0/",
-    "grammy_parse_mode/": "https://deno.land/x/grammy_parse_mode@1.11.1/"
+    "grammy_parse_mode/": "https://deno.land/x/grammy_parse_mode@1.11.1/",
+    "grammy_auto_retry/": "https://deno.land/x/grammy_auto_retry@v2.0.2/"
   }
 }
