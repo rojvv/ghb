@@ -6,7 +6,6 @@
   - [Configuring GitHub](#configuring-github)
     - [A Single Repository](#a-single-repository)
     - [A Whole Organization](#a-whole-organization)
-- [Username Directory](#username-directory)
 - [Supported Events](#supported-events)
 
 ## Installation
@@ -63,14 +62,6 @@ repository, except you open your organization's settings instead.
 5. Set the Content type to `application/json`.
 6. Choose Send me everything.
 7. Click Add webhook.
-
-## Username Directory
-
-If anyone prefers to display their Telegram handle next to their GitHub handle
-in the notifications relevant to them, they can make a pull request to add
-themselves to the [`username_directory.json`](./username_directory.json) file.
-
-This will apply for all users of the public instance.
 
 ## Supported Events
 
