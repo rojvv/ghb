@@ -79,3 +79,8 @@ Notifications are currently sent when:
 - a branch or ref is deleted
 - a release is made
 - a deployment is made
+- a branch or tag is created
+- a comment is made on a commit
+- a discussion is created, closed, reopened, answered, or marked unanswered
+- a comment is made, edited, or deleted on a discussion
+- a workflow run completes

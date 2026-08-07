@@ -295,4 +295,74 @@ export const messages: Record<
         }${url ? `: ${url}` : "."}`;
     }
   },
+  "create": (payload) => {
+    if (!payload.ref || !["branch", "tag"].includes(payload.ref_type)) {
+      return;
+    }
+    const refUrl = new URL(
+      new URL(payload.repository.html_url).pathname +
+        `/tree/${encodeURIComponent(payload.ref)}`,
+      payload.repository.html_url,
+    ).href;
+    return fmt`${
+      getSenderText(payload.sender)
+    } created the ${payload.ref_type} ${link(payload.ref, refUrl)} in ${
+      link(payload.repository.name, payload.repository.html_url)
+    }.`;
+  },
+  "commit_comment": (payload) => {
+    if (payload.action != "created") {
+      return;
+    }
+    return fmt`${getSenderText(payload.sender)} ${
+      link("commented", payload.comment.html_url)
+    } on commit ${
+      link(
+        payload.comment.commit_id.slice(0, 7),
+        payload.comment.html_url,
+      )
+    } in ${link(payload.repository.name, payload.repository.html_url)}.`;
+  },
+  "discussion": (payload) => {
+    const discussion = link(
+      fmt`${payload.repository.name}#${payload.discussion.number} ${payload.discussion.title}`,
+      payload.discussion.html_url,
+    );
+    switch (payload.action) {
+      case "created":
+      case "closed":
+      case "reopened":
+      case "answered":
+      case "unanswered":
+        return fmt`${
+          getSenderText(payload.sender)
+        } ${payload.action} ${discussion}.`;
+    }
+  },
+  "discussion_comment": (payload) => {
+    switch (payload.action) {
+      case "created":
+      case "edited":
+      case "deleted":
+        return fmt`${getSenderText(payload.sender)} ${payload.action} a ${
+          link("comment", payload.comment.html_url)
+        } on ${
+          link(
+            fmt`${payload.repository.name}#${payload.discussion.number} ${payload.discussion.title}`,
+            payload.discussion.html_url,
+          )
+        }.`;
+    }
+  },
+  "workflow_run": (payload) => {
+    if (payload.action != "completed") {
+      return;
+    }
+    const conclusion = payload.workflow_run.conclusion ?? "unknown result";
+    return fmt`${getSenderText(payload.sender)} completed the ${
+      link(payload.workflow_run.name, payload.workflow_run.html_url)
+    } workflow in ${
+      link(payload.repository.name, payload.repository.html_url)
+    } with ${conclusion}.`;
+  },
 };
