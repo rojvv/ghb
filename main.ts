@@ -1,5 +1,5 @@
 import { Application } from "@oak/oak";
-import { Bot, Context } from "grammy/mod.ts";
+import { Bot, Context } from "grammy";
 import { ParseModeFlavor } from "grammy_parse_mode/mod.ts";
 import { messages } from "./messages.ts";
 import { autoRetry } from "grammy_auto_retry/mod.ts";
