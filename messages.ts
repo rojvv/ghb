@@ -1,6 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 // Credits go to github.com/vrumger/gibhugbot.
 import {
+  expandableBlockquote,
   fmt,
   FormattedString,
   italic,
@@ -8,6 +9,11 @@ import {
   Stringable,
 } from "grammy_parse_mode/mod.ts";
 import { cleanMarkdown, getSenderText, updateHeader } from "./utils.ts";
+
+function formatDescription(text: string) {
+  const body = italic(text);
+  return text.length > 500 ? expandableBlockquote(body) : body;
+}
 
 const numberFormat = new Intl.NumberFormat();
 export const messages: Record<
@@ -62,7 +68,7 @@ export const messages: Record<
         let header = fmt`${sender} ${payload.action} ${issue}.\n\n`;
         const body = payload.action == "opened" || payload.action == "edited"
           ? payload.issue.body
-            ? italic(
+            ? formatDescription(
               cleanMarkdown(payload.issue.body)
                 .slice(0, 4096 - header.text.length),
             )
@@ -107,7 +113,7 @@ export const messages: Record<
         }.\n\n`;
         const body = payload.action == "opened" || payload.action == "edited"
           ? payload.pull_request.body
-            ? italic(
+            ? formatDescription(
               cleanMarkdown(payload.pull_request.body)
                 .slice(0, 4096 - header.text.length),
             )
@@ -183,7 +189,7 @@ export const messages: Record<
           )
         }.\n\n`;
         const body = payload.review.body
-          ? italic(
+          ? formatDescription(
             cleanMarkdown(payload.review.body)
               .slice(0, 4096 - header.text.length),
           )
@@ -215,7 +221,7 @@ export const messages: Record<
           )
         }.\n\n`;
         const body = payload.comment.body
-          ? italic(
+          ? formatDescription(
             cleanMarkdown(payload.comment.body)
               .slice(0, 4096 - header.text.length),
           )
@@ -239,7 +245,7 @@ export const messages: Record<
             payload.comment.html_url,
           )
         }.\n\n`;
-        const body = italic(
+        const body = formatDescription(
           cleanMarkdown(payload.comment.body)
             .slice(0, 4096 - header.text.length),
         );

@@ -37,7 +37,11 @@ app.use(async (ctx) => {
         chatId,
         text.toString().substring(0, 4093) + (text.length > 4093 ? "..." : ""),
         {
-          entities: entities?.filter((v) => !((v.offset + v.length) > 4093)),
+          entities: entities?.map((v) =>
+            v.type === "expandable_blockquote"
+              ? { ...v, length: Math.min(v.length, 4093 - v.offset) }
+              : v
+          ).filter((v) => v.length > 0 && v.offset + v.length <= 4093),
           link_preview_options: { is_disabled: true },
           ...(messageThreadId
             ? { reply_parameters: { message_id: Number(messageThreadId) } }
